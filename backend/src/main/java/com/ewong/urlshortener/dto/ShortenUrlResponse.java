@@ -1,7 +1,3 @@
 package com.ewong.urlshortener.dto;
 
-public record ShortenUrlResponse(
-        String hash,
-        String inputUrl,
-        String shortenedUrl
-) {}
+public record ShortenUrlResponse(String shortenedUrl) {}

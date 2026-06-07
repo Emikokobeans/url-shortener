@@ -3,10 +3,10 @@
     <h1>URL Shortener MVP</h1>
 
     <form @submit.prevent="handleSubmit" class="form">
-      <label for="inputUrl">Full URL</label>
+      <label for="fullUrl">Full URL</label>
       <input
-        id="inputUrl"
-        v-model="inputUrl"
+        id="fullUrl"
+        v-model="fullUrl"
         type="url"
         placeholder="https://www.tpximpact.com/about"
         required
@@ -26,7 +26,7 @@
         <strong>Short URL:</strong>
         <a :href="result.shortUrl" target="_blank" rel="noreferrer">{{ result.shortUrl }}</a>
       </p>
-      <p><strong>Original URL:</strong> {{ result.inputUrl }}</p>
+      <p><strong>Original URL:</strong> {{ result.fullUrl }}</p>
     </section>
   </main>
 </template>
@@ -35,7 +35,7 @@
 import { ref } from 'vue'
 import { shortenUrl } from './utils/urlService'
 
-const inputUrl = ref('')
+const fullUrl = ref('')
 const result = ref(null)
 const error = ref('')
 const loading = ref(false)
@@ -46,8 +46,8 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    result.value = await shortenUrl(inputUrl.value)
-    inputUrl.value = ''
+    result.value = await shortenUrl(fullUrl.value)
+    fullUrl.value = ''
   } catch (e) {
     error.value = e.message
   } finally {

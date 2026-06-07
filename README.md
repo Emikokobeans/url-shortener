@@ -33,13 +33,13 @@ mvn spring-boot:run
 ```bash
 curl -X POST http://localhost:8080/api/urls \
   -H 'Content-Type: application/json' \
-  -d '{"inputUrl":"https://example.com/some/long/path"}'
+  -d '{"fullUrl":"https://example.com/some/long/path"}'
 ```
 
 ```bash
 curl -X POST http://localhost:8080/api/urls \
   -H 'Content-Type: application/json' \
-  -d '{"inputUrl":"bad-url"}'
+  -d '{"fullUrl":"bad-url"}'
 ```
 
 ## Frontend

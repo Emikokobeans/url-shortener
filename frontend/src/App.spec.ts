@@ -12,13 +12,13 @@ describe('App.vue', () => {
   })
 
   it('submits a URL and shows the shortened result', async () => {
-    (fetch as Mock).mockResolvedValueOnce({
+    ;(fetch as Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({
         alias: 'abc123',
-        inputUrl: 'https://example.com',
-        shortUrl: 'http://localhost:8080/abc1234'
-      })
+        fullUrl: 'https://example.com',
+        shortUrl: 'http://localhost:8080/abc1234',
+      }),
     })
 
     const wrapper = mount(App)

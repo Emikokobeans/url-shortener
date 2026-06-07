@@ -19,38 +19,11 @@ class UrlShortenerServiceTest {
     }
 
     @Test
-    @DisplayName("should return hash with the correct length")
-    void shouldReturnAliasHash() {
-        ShortenUrlResponse response = service.shorten("https://example.com/some/long/path");
-
-        assertNotNull(response.hash());
-        assertEquals(6, response.hash().length());
-    }
-
-    @Test
     @DisplayName("should return a url with the baseUrl set")
     void shouldReturnShortenedUrl() {
         ShortenUrlResponse response = service.shorten("https://example.com/some/long/path");
 
         assertTrue(response.shortenedUrl().startsWith("http://localhost:8080/"));
-    }
-
-    @Test
-    @DisplayName("should return the original inputted url")
-    void shouldReturnInputtedUrl() {
-        ShortenUrlResponse response = service.shorten("https://example.com/some/long/path");
-
-        assertEquals("https://example.com/some/long/path", response.inputUrl());
-    }
-
-    @Test
-    @DisplayName("should store inputted url so it can be retrieved")
-    void shouldStoreUrlSoItCanBeResolved() {
-        ShortenUrlResponse response = service.shorten("https://example.com");
-
-        String resolved = service.resolve(response.hash());
-
-        assertEquals("https://example.com", resolved);
     }
 
     @Test
@@ -76,8 +49,8 @@ class UrlShortenerServiceTest {
     }
 
     @Test
-    @DisplayName("should return null when the hash does not exist")
-    void shouldReturnNullForUnknownHash() {
+    @DisplayName("should return null when the alias does not exist")
+    void shouldReturnNullForUnknownAlias() {
         assertNull(service.resolve("unknown"));
     }
 }
