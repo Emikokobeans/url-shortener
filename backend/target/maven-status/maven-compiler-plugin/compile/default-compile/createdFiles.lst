@@ -1,5 +1,0 @@
-com/ewong/urlshortener/dto/ShortenUrlResponse.class
-com/ewong/urlshortener/service/UrlShortenerService.class
-com/ewong/urlshortener/controller/UrlShortenerController.class
-com/ewong/urlshortener/UrlShortenerApplication.class
-com/ewong/urlshortener/dto/ShortenUrlRequest.class

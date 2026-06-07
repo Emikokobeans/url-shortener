@@ -36,6 +36,8 @@ curl -X POST http://localhost:8080/api/urls \
   -d '{"inputUrl":"https://example.com/some/long/path"}'
 ```
 
+```bash
 curl -X POST http://localhost:8080/api/urls \
   -H 'Content-Type: application/json' \
   -d '{"inputUrl":"bad-url"}'
+```
