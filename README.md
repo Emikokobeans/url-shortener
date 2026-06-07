@@ -41,3 +41,18 @@ curl -X POST http://localhost:8080/api/urls \
   -H 'Content-Type: application/json' \
   -d '{"inputUrl":"bad-url"}'
 ```
+
+## Frontend
+
+### Installation
+
+```bash
+cd frontend
+npm install
+```
+### Run the frontend
+
+```bash
+npm run test
+npm run dev
+```
