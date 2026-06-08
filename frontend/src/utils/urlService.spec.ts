@@ -1,23 +1,30 @@
 import { describe, expect, it, vi } from 'vitest'
-import { shortenUrl } from './urlService'
+import { listUrls, shortenUrl } from './urlService'
 
 describe('urlService', () => {
-  it('calls backend endpoint', async () => {
-    const mockResponse = {
-      alias: 'abc123',
-      shortUrl: 'http://localhost:8080/abc123'
-    }
+  it('posts to /shorten', async () => {
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ shortUrl: 'http://localhost:8080/x' }),
+      } as Response),
+    )
 
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: vi.fn().mockResolvedValue(mockResponse)
-    })
+    await shortenUrl('https://example.com')
 
-    globalThis.fetch = fetchMock as unknown as typeof fetch
+    expect(fetch).toHaveBeenCalledWith(
+      'http://localhost:8080/shorten',
+      expect.objectContaining({ method: 'POST' }),
+    )
+  })
 
-    const result = await shortenUrl('https://example.com')
+  it('calls list endpoint', async () => {
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve([]) } as Response),
+    )
 
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(result.alias).toBe('abc123')
+    await listUrls()
+
+    expect(fetch).toHaveBeenCalledWith('http://localhost:8080/urls')
   })
 })

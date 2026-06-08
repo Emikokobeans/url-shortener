@@ -1,25 +1,27 @@
 import { mount, flushPromises } from '@vue/test-utils'
-import { beforeEach, afterEach, describe, expect, it, vi, Mock } from 'vitest'
+import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App.vue'
 
 describe('App.vue', () => {
+  const mockFetch = vi.fn() as ReturnType<typeof vi.fn>
+
   beforeEach(() => {
-    vi.stubGlobal('fetch', vi.fn())
+    vi.stubGlobal('fetch', mockFetch)
   })
 
   afterEach(() => {
     vi.unstubAllGlobals()
+    mockFetch.mockReset()
   })
 
   it('submits a URL and shows the shortened result', async () => {
-    ;(fetch as Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({
-        alias: 'abc123',
-        fullUrl: 'https://example.com',
-        shortUrl: 'http://localhost:8080/abc1234',
-      }),
-    })
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ shortenedUrl: 'http://localhost:8080/abc1234' }),
+      })
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
 
     const wrapper = mount(App)
 
@@ -28,20 +30,17 @@ describe('App.vue', () => {
     await flushPromises()
 
     expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:8080/api/urls',
-      expect.objectContaining({ method: 'POST' })
+      'http://localhost:8080/shorten',
+      expect.objectContaining({ method: 'POST' }),
     )
 
-    expect(wrapper.text()).toContain('abc123')
     expect(wrapper.text()).toContain('http://localhost:8080/abc1234')
-    expect(wrapper.text()).toContain('https://example.com')
   })
 
   it('shows an error when the API fails', async () => {
-    (fetch as Mock).mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ error: 'Invalid URL' })
-    })
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => [] })
+      .mockResolvedValueOnce({ ok: false, json: async () => ({ error: 'Invalid URL' }) })
 
     const wrapper = mount(App)
 

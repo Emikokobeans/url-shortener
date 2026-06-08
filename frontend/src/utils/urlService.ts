@@ -1,5 +1,5 @@
 export async function shortenUrl(fullUrl: string) {
-  const response = await fetch('http://localhost:8080/api/urls', {
+  const response = await fetch('http://localhost:8080/shorten', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,4 +14,9 @@ export async function shortenUrl(fullUrl: string) {
   }
 
   return data
+}
+
+export async function listUrls() {
+  const response = await fetch('http://localhost:8080/urls')
+  return response.json()
 }
