@@ -12,6 +12,14 @@
         required
       />
 
+      <label for="customAlias">Custom alias (optional)</label>
+      <input
+        id="customAlias"
+        v-model="customAlias"
+        type="text"
+        placeholder="my-custom-alias"
+      />
+
       <button type="submit" :disabled="loading">
         {{ loading ? 'Shortening...' : 'Shorten URL' }}
       </button>
@@ -58,6 +66,7 @@ import { onMounted, ref } from 'vue'
 import { deleteUrl, listUrls, shortenUrl } from './utils/urlService'
 
 const fullUrl = ref('')
+const customAlias = ref('')
 const result = ref<shortenResult | null>(null)
 const error = ref('')
 const loading = ref(false)
@@ -80,8 +89,9 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    result.value = await shortenUrl(fullUrl.value)
+    result.value = await shortenUrl(fullUrl.value, customAlias.value)
     fullUrl.value = ''
+    customAlias.value = ''
     await loadUrls()
   } catch (err) {
     error.value = (err as Error).message

@@ -1,10 +1,17 @@
-export async function shortenUrl(fullUrl: string) {
+export async function shortenUrl(fullUrl: string, customAlias?: string) {
+  const payload = {
+    fullUrl,
+    ...(customAlias?.trim() && {
+      customAlias: customAlias.trim(),
+    }),
+  }
+
   const response = await fetch('http://localhost:8080/shorten', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fullUrl }),
+    body: JSON.stringify(payload),
   })
 
   const data = await response.json()

@@ -27,7 +27,7 @@ class UrlShortenerControllerTest {
     @Test
     @DisplayName("should return expected shortened url response")
     void shouldReturnShortenedUrl() throws Exception {
-        when(urlShortenerService.shorten(any()))
+        when(urlShortenerService.shorten(any(), any()))
                 .thenReturn(new ShortenUrlResponse("http://localhost:8080/dummy-alias"));
 
         mockMvc.perform(post("/shorten")

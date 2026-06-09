@@ -22,10 +22,10 @@ public class UrlShortenerService {
     @Value("${app.base-url:http://localhost:8080}")
     private String baseUrl;
 
-    public ShortenUrlResponse shorten(String fullUrl) {
+    public ShortenUrlResponse shorten(String fullUrl, String customAlias) {
         validateUrl(fullUrl);
 
-        String alias = generateAlias();
+        String alias = (customAlias == null || customAlias.isBlank()) ? generateAlias() : customAlias;
 
         if (store.containsKey(alias)) {
             throw new IllegalArgumentException("Alias already taken");

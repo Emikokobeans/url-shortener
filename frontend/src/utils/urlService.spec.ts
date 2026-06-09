@@ -6,11 +6,11 @@ describe('urlService', () => {
     globalThis.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ shortUrl: 'http://localhost:8080/x' }),
+        json: () => Promise.resolve({ shortenedUrl: 'http://localhost:8080/dummy-alias' }),
       } as Response),
     )
 
-    await shortenUrl('https://example.com')
+    await shortenUrl('https://example.com', 'dummy-alias')
 
     expect(fetch).toHaveBeenCalledWith(
       'http://localhost:8080/shorten',
