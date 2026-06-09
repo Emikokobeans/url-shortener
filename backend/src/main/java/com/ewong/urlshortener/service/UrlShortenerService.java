@@ -41,6 +41,10 @@ public class UrlShortenerService {
         return store.get(alias);
     }
 
+    public boolean delete(String alias) {
+        return store.remove(alias) != null;
+    }
+
     private String generateAlias() {
         String alias;
         do {

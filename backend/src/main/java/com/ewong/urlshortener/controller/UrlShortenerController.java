@@ -38,6 +38,12 @@ public class UrlShortenerController {
                 .build();
     }
 
+    @DeleteMapping("/{alias}")
+    public ResponseEntity<Void> delete(@PathVariable String alias) {
+        boolean deleted = urlShortenerService.delete(alias);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/urls")
     public List<UrlItemResponse> listAll() {
         return urlShortenerService.listAll();

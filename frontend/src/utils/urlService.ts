@@ -20,3 +20,13 @@ export async function listUrls() {
   const response = await fetch('http://localhost:8080/urls')
   return response.json()
 }
+
+export async function deleteUrl(alias: string) {
+  const response = await fetch(`http://localhost:8080/${alias}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('Failed to delete URL')
+  }
+}

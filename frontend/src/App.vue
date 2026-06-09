@@ -44,6 +44,7 @@
               <a :href="item.shortenedUrl" target="_blank" rel="noreferrer">{{ item.shortenedUrl }}</a>
             </div>
           </div>
+          <button type="button" class="danger" @click="handleDelete(item.alias)">Delete</button>
         </li>
       </ul>
 
@@ -54,7 +55,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { listUrls, shortenUrl } from './utils/urlService'
+import { deleteUrl, listUrls, shortenUrl } from './utils/urlService'
 
 const fullUrl = ref('')
 const result = ref<shortenResult | null>(null)
@@ -97,6 +98,16 @@ async function loadUrls() {
     error.value = (err as Error).message
   } finally {
     loadingList.value = false
+  }
+}
+
+async function handleDelete(alias: string) {
+  error.value = ''
+  try {
+    await deleteUrl(alias)
+    await loadUrls()
+  } catch (err) {
+    error.value = (err as Error).message
   }
 }
 

@@ -28,7 +28,7 @@ class UrlShortenerControllerTest {
     @DisplayName("should return expected shortened url response")
     void shouldReturnShortenedUrl() throws Exception {
         when(urlShortenerService.shorten(any()))
-                .thenReturn(new ShortenUrlResponse("http://localhost:8080/abc1234"));
+                .thenReturn(new ShortenUrlResponse("http://localhost:8080/dummy-alias"));
 
         mockMvc.perform(post("/shorten")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -36,7 +36,7 @@ class UrlShortenerControllerTest {
                                 {"fullUrl":"https://example.com"}
                                 """))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.shortenedUrl").value("http://localhost:8080/abc1234"));
+                .andExpect(jsonPath("$.shortenedUrl").value("http://localhost:8080/dummy-alias"));
     }
 
     @Test
@@ -53,11 +53,20 @@ class UrlShortenerControllerTest {
     @Test
     @DisplayName("should redirect the alias url to the full url")
     void shouldRedirectAliasUrlToFullUrl() throws Exception {
-        when(urlShortenerService.resolve("abc1234")).thenReturn("https://example.com");
+        when(urlShortenerService.resolve("dummy-alias")).thenReturn("https://example.com");
 
-        mockMvc.perform(get("/abc1234"))
+        mockMvc.perform(get("/dummy-alias"))
                 .andExpect(status().isFound())
                 .andExpect(header().string("Location", "https://example.com"));
+    }
+
+    @Test
+    @DisplayName("should delete a shortened url")
+    void shouldDeleteShortenedUrl() throws Exception {
+        when(urlShortenerService.delete("dummy-alias")).thenReturn(true);
+
+        mockMvc.perform(delete("/dummy-alias"))
+                .andExpect(status().isNoContent());
     }
 
     @Test

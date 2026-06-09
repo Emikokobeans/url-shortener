@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { listUrls, shortenUrl } from './urlService'
+import { deleteUrl, listUrls, shortenUrl } from './urlService'
 
 describe('urlService', () => {
   it('posts to /shorten', async () => {
@@ -26,5 +26,13 @@ describe('urlService', () => {
     await listUrls()
 
     expect(fetch).toHaveBeenCalledWith('http://localhost:8080/urls')
+  })
+
+  it('deletes an alias', async () => {
+    globalThis.fetch = vi.fn(() => Promise.resolve({ ok: true } as Response))
+
+    await deleteUrl('dummy-alias')
+
+    expect(fetch).toHaveBeenCalledWith('http://localhost:8080/dummy-alias', { method: 'DELETE' })
   })
 })

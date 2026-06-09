@@ -19,7 +19,7 @@ describe('App.vue', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => [] })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ shortenedUrl: 'http://localhost:8080/abc1234' }),
+        json: async () => ({ shortenedUrl: 'http://localhost:8080/dummy-alias' }),
       })
       .mockResolvedValueOnce({ ok: true, json: async () => [] })
 
@@ -34,7 +34,7 @@ describe('App.vue', () => {
       expect.objectContaining({ method: 'POST' }),
     )
 
-    expect(wrapper.text()).toContain('http://localhost:8080/abc1234')
+    expect(wrapper.text()).toContain('http://localhost:8080/dummy-alias')
   })
 
   it('shows an error when the API fails', async () => {
