@@ -4,6 +4,7 @@ A minimal URL shortener built with:
 
 - **Backend:** Java, Spring Boot
 - **Frontend:** Vue 3, Vite, Vitest
+- **Containerisation:** Docker, Docker Compose
 
 ## Project layout
 
@@ -11,6 +12,18 @@ A minimal URL shortener built with:
 backend: Spring Boot API
 frontend: Vue app with Vitest
 ```
+
+## Run with Docker
+
+```bash
+docker compose up --build
+```
+
+Then open:
+
+- Frontend UI: http://localhost:8082
+- Backend API: http://localhost:8080
+- Backend API health check: http://localhost:8080/
 
 ## Backend
 
